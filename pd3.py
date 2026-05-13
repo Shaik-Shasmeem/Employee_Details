@@ -84,16 +84,3 @@ while True:
         print("Invalid choice. Please enter a number between 0 and 10.")
     else:
         operations[valueInput]()
-
-
-"""df["Salary"]=5000
-print(df["Salary"])
-df["AgeCategory"] = np.where(df["Age"] < 30, "Young", "Senior")
-print(df["AgeCategory"])
-df["City"] = df["City"].replace("Pune", "Pune City")
-print(df["City"].value_counts())
-df.loc[0,"Age"] = None
-print(df["Age"])
-print(df["Age"].isnull())
-df["Age"]=df["Age"].fillna(df["Age"].mean())
-print(df["Age"])"""
