@@ -21,6 +21,7 @@ def gender_counts():
     print("Gender Counts:", df["Gender"].value_counts())
 def Joining_years():
     print("Joining Year Counts:", df["JoiningYear"].value_counts())
+
 while True:
     print("\n<--------------Information Retrieval Menu:-------------->")
     input_value = int(input("Enter the number corresponding to the information you want to retrieve:" \
@@ -28,27 +29,16 @@ while True:
     "---------------------------------------------------------\n" \
     "Your Choice: "))
     
-    if input_value == 1:    
-        max_age()
-    elif input_value == 2:    
-        min_age()
-    elif input_value == 3:    
-        Experience_in_current_domain()  
-    elif input_value == 4:    
-        payment_tier()
-    elif input_value == 5:
-        city_counts()
-    elif input_value == 6:
-        first_rows()
-    elif input_value == 7:
-        last_rows()
-    elif input_value == 8:
-        gender_counts()
-    elif input_value == 9:
-        Joining_years()
-    elif input_value == 0:
+    a={
+        "1":max_age,"2": min_age,"3":Experience_in_current_domain,"4":payment_tier,"5":city_counts,"6":last_rows,"7":last_rows,"8":gender_counts,"9":Joining_years
+    }
+
+    if input_value == 0:
         print("Exiting the program.")
         break
+    elif input_value not in range(0, 10):
+        print("Invalid choice. Please enter a number between 0 and 9.")
     else:
-        print("Invalid input. Please enter a number between 1 and 9.")
+        a[str(input_value)]()
+        
     
