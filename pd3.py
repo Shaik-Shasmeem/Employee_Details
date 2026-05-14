@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-df=pd.read_csv("data/Employee.csv")
+df = pd.read_csv("data/UpdatedEmployee.csv")
 
 def InsertSalary():
     n=int(input("Enter the salary you want to insert for all employees: "))
