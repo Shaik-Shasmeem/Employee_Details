@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-df = pd.read_csv("data/UpdatedEmployee.csv")
+df = pd.read_csv("data/Employee.csv")
 
 def InsertSalary():
     n=int(input("Enter the salary you want to insert for all employees: "))
@@ -21,7 +21,7 @@ def ReplaceCity():
     print(df["City"].value_counts())    
 
 def SetAgeNull():
-    a=int(input("Enter the index of the row for which you want to set Age to null: "))
+    a=int(input("Enter the index of the row for which you want to set Age to null(0-{}): ".format(len(df)-1)))
     if pd.isnull(df.loc[a, "Age"]):
         print(f"Age is already null for index {a}.")
     else:
@@ -39,9 +39,9 @@ def FillAgeNull():
 
 def DeleteColumn():
     print("Current columns in the DataFrame:\n", df.columns)
-    colname=str(input("Enter the column name you want to delete: "))
-    df.drop(columns=[colname], inplace=True)
-    print(f"Column '{colname}' has been deleted. Current columns:\n", df.columns) 
+    colname=int(input("Enter the number corresponding to the column you want to delete(1-{}): ".format(len(df.columns))))
+    df.drop(columns=[df.columns[colname-1]], inplace=True)
+    print(f"Column '{df.columns[colname-1]}' has been deleted. Current columns:\n", df.columns) 
 
 def NewColumn():
     colname=str(input("Enter the name of the new column you want to create: "))
@@ -59,21 +59,32 @@ def UpdateColumn():
         df[df.columns[colname-1]] = newvalue
         print(f"Column '{df.columns[colname-1]}' has been updated with new value {newvalue}.\n", df.head())
     else:
-        print(f"Column '{colname}' does not exist in the DataFrame.")
+        print(f"Column number '{colname}' does not exist in the DataFrame.")
 
 def SetNull():
-    colname=str(input("Enter the name of the column you want to set to null: "))
-    if colname in df.columns:
-        df[colname]=None
-        print(f"Column '{colname}' has been set to null.\n", df.head())
+    print("Current columns in the DataFrame:\n", df.columns)
+    colname=str(input("Enter the column number you want to set to null(1-{}): ".format(len(df.columns))))
+    if 1 <= colname <= len(df.columns):
+        df[df.columns[colname-1]] = None
+        print(f"Column '{df.columns[colname-1]}' has been set to null.\n", df.head())
     else:
-        print(f"Column '{colname}' does not exist in the DataFrame.")
+        print(f"Column number '{colname}' does not exist in the DataFrame.")
 
+def ColumnNameChange():
+    print("Current columns in the DataFrame:\n", df.columns)
+    colname=int(input("Enter the number corresponding to the column you want to rename(1-{}): ".format(len(df.columns))))
+    newname=str(input("Enter the new name for the column: "))
+    if 1 <= colname <= len(df.columns):
+        oldname = df.columns[colname-1]
+        df.rename(columns={oldname: newname}, inplace=True)
+        print(f"Column '{oldname}' has been renamed to '{newname}'. Current columns:\n", df.columns)
+    else:
+        print(f"Column number '{colname}' does not exist in the DataFrame.")
 
 while True:
     print("\n<--------------Data Manipulation Menu:-------------->")
     valueInput=int(input("Enter the number corresponding to the operation you want to perform:" \
-"\n1. Insert Salary\n2. Create Age Category\n3. Replace City Name\n4. Set Age to Null\n5. Check for Null Values in Age\n6. Fill Null Values in Age with Mean\n7. Delete Column\n8. Create New Column\n9. Update Column\n10. Set Column to Null\n0. Exit\n" \
+"\n1. Insert Salary\n2. Create Age Category\n3. Replace City Name\n4. Set Age to Null\n5. Check for Null Values in Age\n6. Fill Null Values in Age with Mean\n7. Delete Column\n8. Create New Column\n9. Update Column\n10. Set Column to Null \n11. Rename Column\n0. Exit\n" \
 "---------------------------------------------------------\n" \
 "Your Choice: "))
     operations={
@@ -86,13 +97,14 @@ while True:
     7:DeleteColumn,
     8:NewColumn,
     9:UpdateColumn,
-    10:SetNull
+    10:SetNull,
+    11:ColumnNameChange
 }
     if valueInput == 0:
         print("Exiting the program.")
         break
-    elif valueInput not in range(0, 11):
-        print("Invalid choice. Please enter a number between 0 and 10.")
+    elif valueInput not in range(0, 12):
+        print("Invalid choice. Please enter a number between 0 and 11.")
     else:
         operations[valueInput]()
         df.to_csv("data/UpdatedEmployee.csv", index=False)
